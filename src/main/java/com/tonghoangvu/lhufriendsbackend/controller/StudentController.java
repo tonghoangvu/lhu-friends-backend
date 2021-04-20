@@ -5,7 +5,6 @@ import com.tonghoangvu.lhufriendsbackend.model.StudentInfo;
 import com.tonghoangvu.lhufriendsbackend.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
@@ -16,10 +15,10 @@ public class StudentController {
     private final @NotNull StudentService studentService;
 
     @PostMapping("/")
-    public @NotNull ResponseEntity<Flux<StudentInfo>> getStudents(
+    public @NotNull Flux<StudentInfo> getStudents(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestBody @NotNull StudentFilter studentFilter) {
-        return ResponseEntity.ok(studentService.getStudents(studentFilter, page, size));
+        return studentService.getStudents(studentFilter, page, size);
     }
 }
