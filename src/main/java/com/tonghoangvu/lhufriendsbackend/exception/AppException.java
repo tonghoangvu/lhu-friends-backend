@@ -2,6 +2,7 @@ package com.tonghoangvu.lhufriendsbackend.exception;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 
 @Getter
@@ -11,7 +12,7 @@ public class AppException extends RuntimeException {
     private final ErrorCode code;
     private final String message;
 
-    public AppException(HttpStatus status, ErrorCode code, String message) {
+    public AppException(@NotNull HttpStatus status, ErrorCode code, String message) {
         super(message);
         this.status = status.value();
         this.code = code;

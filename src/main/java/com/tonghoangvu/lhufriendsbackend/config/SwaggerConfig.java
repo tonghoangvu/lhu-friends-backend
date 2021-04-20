@@ -1,5 +1,7 @@
 package com.tonghoangvu.lhufriendsbackend.config;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -28,7 +30,8 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo());
     }
 
-    private ApiInfo apiInfo() {
+    @Contract(" -> new")
+    private @NotNull ApiInfo apiInfo() {
         return new ApiInfo(
                 "lhu-friends-backend",
                 "Backend API cho tiện ích tìm kiếm bạn bè LHU",

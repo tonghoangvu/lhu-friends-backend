@@ -64,6 +64,14 @@
             <artifactId>springfox-bean-validators</artifactId>
             <version>3.0.0</version>
         </dependency>
+
+        <!-- JetBrains infer nullity -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>20.1.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

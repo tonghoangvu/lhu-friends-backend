@@ -3,6 +3,7 @@ package com.tonghoangvu.lhufriendsbackend.repository;
 import com.tonghoangvu.lhufriendsbackend.entity.Student;
 import com.tonghoangvu.lhufriendsbackend.model.StudentFilter;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
@@ -14,13 +15,14 @@ import reactor.core.publisher.Flux;
 @Repository
 @RequiredArgsConstructor
 public class CustomStudentRepository {
-    private final ReactiveMongoOperations mongoOperations;
+    private final @NotNull ReactiveMongoOperations mongoOperations;
 
-    private Criteria regexCriteria(String field, String value) {
+    private @NotNull Criteria regexCriteria(@NotNull String field, @NotNull String value) {
         return Criteria.where(field).regex(value, "i");
     }
 
-    public Flux<Student> findAndWithFilterAndPagination(StudentFilter studentFilter, int page, int size) {
+    public @NotNull Flux<Student> findAndWithFilterAndPagination(
+            @NotNull StudentFilter studentFilter, int page, int size) {
         // Create query
         Query query = new Query()
                 .with(Sort.by("studentId").descending())

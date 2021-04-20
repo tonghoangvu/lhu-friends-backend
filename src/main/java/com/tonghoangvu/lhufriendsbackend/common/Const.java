@@ -1,6 +1,7 @@
 package com.tonghoangvu.lhufriendsbackend.common;
 
 import lombok.Getter;
+import org.jetbrains.annotations.Contract;
 
 @Getter
 public enum Const {
@@ -8,6 +9,7 @@ public enum Const {
 
     private final int intValue;
 
+    @Contract(pure = true)
     Const(int value) {
         this.intValue = value;
     }

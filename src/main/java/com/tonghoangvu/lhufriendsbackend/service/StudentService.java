@@ -7,6 +7,7 @@ import com.tonghoangvu.lhufriendsbackend.model.StudentFilter;
 import com.tonghoangvu.lhufriendsbackend.model.StudentInfo;
 import com.tonghoangvu.lhufriendsbackend.repository.CustomStudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -14,9 +15,9 @@ import reactor.core.publisher.Flux;
 @Service
 @RequiredArgsConstructor
 public class StudentService {
-    private final CustomStudentRepository customStudentRepository;
+    private final @NotNull CustomStudentRepository customStudentRepository;
 
-    public Flux<StudentInfo> getStudents(StudentFilter studentFilter, int page, int size) {
+    public @NotNull Flux<StudentInfo> getStudents(@NotNull StudentFilter studentFilter, int page, int size) {
         if (size > Const.MAX_STUDENTS_PER_REQUEST.getIntValue())
             throw new AppException(HttpStatus.BAD_REQUEST, ErrorCode.REQUEST_TOO_MANY,
                     "Request too much data");

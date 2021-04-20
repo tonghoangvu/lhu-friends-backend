@@ -3,6 +3,7 @@ package com.tonghoangvu.lhufriendsbackend.model;
 import com.tonghoangvu.lhufriendsbackend.entity.Student;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 @Setter
@@ -23,7 +24,7 @@ public class StudentInfo {
     private String groupName;
     private String facebook;
 
-    public StudentInfo(Student student) {
+    public StudentInfo(@NotNull Student student) {
         this.studentId = student.getStudentId();
         this.fullName = student.getFullName();
         this.birthday = student.getBirthday();
