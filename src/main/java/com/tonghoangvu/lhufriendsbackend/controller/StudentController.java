@@ -15,6 +15,7 @@ public class StudentController {
     private final @NotNull StudentService studentService;
 
     @PostMapping("/")
+    @CrossOrigin(origins = "*")
     public @NotNull Flux<StudentInfo> getStudents(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
@@ -23,6 +24,7 @@ public class StudentController {
     }
 
     @PostMapping("/random")
+    @CrossOrigin(origins = "*")
     public @NotNull Flux<StudentInfo> getRandomStudents(
             @RequestParam(value = "size", defaultValue = "3") int size,
             @RequestBody @NotNull StudentFilter studentFilter) {
