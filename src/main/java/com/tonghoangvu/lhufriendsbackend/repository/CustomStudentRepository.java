@@ -7,6 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.aggregation.SampleOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -17,44 +20,51 @@ import reactor.core.publisher.Flux;
 public class CustomStudentRepository {
     private final @NotNull ReactiveMongoOperations mongoOperations;
 
-    private @NotNull Criteria regexCriteria(@NotNull String field, @NotNull String value) {
-        return Criteria.where(field).regex(value, "i");
-    }
-
-    public @NotNull Flux<Student> findAndWithFilterAndPagination(
-            @NotNull StudentFilter studentFilter, int page, int size) {
-        // Create query
-        Query query = new Query()
-                .with(Sort.by("studentId").descending())
-                .with(PageRequest.of(page, size));
+    private @NotNull Criteria buildStudentFilterCriteria(@NotNull StudentFilter studentFilter) {
+        Criteria criteria = new Criteria();
 
         // Exact match fields
         if (studentFilter.getGender() != null)
-            query.addCriteria(Criteria.where("gender").is(studentFilter.getGender()));
+            criteria.and("gender").is(studentFilter.getGender());
 
         // Regex match fields
         if (studentFilter.getStudentId() != null)
-            query.addCriteria(regexCriteria("studentId", studentFilter.getStudentId()));
+            criteria.and("studentId").regex(studentFilter.getStudentId(), "i");
         if (studentFilter.getFullName() != null)
-            query.addCriteria(regexCriteria("fullName", studentFilter.getFullName()));
+            criteria.and("fullName").regex(studentFilter.getFullName(), "i");
         if (studentFilter.getBirthday() != null)
-            query.addCriteria(regexCriteria("birthday", studentFilter.getBirthday()));
+            criteria.and("birthday").regex(studentFilter.getBirthday(), "i");
         if (studentFilter.getPlaceOfBirth() != null)
-            query.addCriteria(regexCriteria("placeOfBirth", studentFilter.getPlaceOfBirth()));
+            criteria.and("placeOfBirth").regex(studentFilter.getPlaceOfBirth(), "i");
         if (studentFilter.getEthnic() != null)
-            query.addCriteria(regexCriteria("ethnic", studentFilter.getEthnic()));
+            criteria.and("ethnic").regex(studentFilter.getEthnic(), "i");
         if (studentFilter.getNationality() != null)
-            query.addCriteria(regexCriteria("nationality", studentFilter.getNationality()));
+            criteria.and("nationality").regex(studentFilter.getNationality(), "i");
         if (studentFilter.getClassId() != null)
-            query.addCriteria(regexCriteria("classId", studentFilter.getClassId()));
+            criteria.and("classId").regex(studentFilter.getClassId(), "i");
         if (studentFilter.getFacebook() != null)
-            query.addCriteria(regexCriteria("facebook", studentFilter.getFacebook()));
+            criteria.and("facebook").regex(studentFilter.getFacebook(), "i");
         if (studentFilter.getEmail() != null)
-            query.addCriteria(regexCriteria("email", studentFilter.getEmail()));
+            criteria.and("email").regex(studentFilter.getEmail(), "i");
         if (studentFilter.getPhone() != null)
-            query.addCriteria(regexCriteria("phone", studentFilter.getPhone()));
+            criteria.and("phone").regex(studentFilter.getPhone(), "i");
 
-        // Start query
+        return criteria;
+    }
+
+    public @NotNull Flux<Student> findTopRandomWithFilter(@NotNull StudentFilter studentFilter, int size) {
+        MatchOperation matchOp = Aggregation.match(buildStudentFilterCriteria(studentFilter));
+        SampleOperation sampleOp = Aggregation.sample(size);
+        Aggregation aggregation = Aggregation.newAggregation(matchOp, sampleOp);
+        return mongoOperations.aggregate(aggregation, "students", Student.class);
+    }
+
+    public @NotNull Flux<Student> findAllWithFilterAndPagination(
+            @NotNull StudentFilter studentFilter, int page, int size) {
+        Query query = new Query()
+                .with(Sort.by("studentId").descending())
+                .with(PageRequest.of(page, size))
+                .addCriteria(buildStudentFilterCriteria(studentFilter));
         return mongoOperations.find(query, Student.class);
     }
 }

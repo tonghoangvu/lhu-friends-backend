@@ -21,7 +21,19 @@ public class StudentService {
         if (size > Const.MAX_STUDENTS_PER_REQUEST.getIntValue())
             throw new AppException(HttpStatus.BAD_REQUEST, ErrorCode.REQUEST_TOO_MANY,
                     "Request too much data");
-        return customStudentRepository.findAndWithFilterAndPagination(studentFilter, page, size)
+        return customStudentRepository.findAllWithFilterAndPagination(studentFilter, page, size)
+                .map(student -> {
+                    if (studentFilter.getPhone() == null || studentFilter.getPhone().isEmpty())
+                        student.setPhone(null);
+                    return new StudentInfo(student);
+                });
+    }
+
+    public @NotNull Flux<StudentInfo> getRandomStudents(@NotNull StudentFilter studentFilter, int size) {
+        if (size > Const.MAX_STUDENTS_PER_REQUEST.getIntValue())
+            throw new AppException(HttpStatus.BAD_REQUEST, ErrorCode.REQUEST_TOO_MANY,
+                    "Request too much data");
+        return customStudentRepository.findTopRandomWithFilter(studentFilter, size)
                 .map(student -> {
                     if (studentFilter.getPhone() == null || studentFilter.getPhone().isEmpty())
                         student.setPhone(null);

@@ -21,4 +21,11 @@ public class StudentController {
             @RequestBody @NotNull StudentFilter studentFilter) {
         return studentService.getStudents(studentFilter, page, size);
     }
+
+    @PostMapping("/random")
+    public @NotNull Flux<StudentInfo> getRandomStudents(
+            @RequestParam(value = "size", defaultValue = "3") int size,
+            @RequestBody @NotNull StudentFilter studentFilter) {
+        return studentService.getRandomStudents(studentFilter, size);
+    }
 }
