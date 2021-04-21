@@ -23,10 +23,6 @@ public class CustomStudentRepository {
     private @NotNull Criteria buildStudentFilterCriteria(@NotNull StudentFilter studentFilter) {
         Criteria criteria = new Criteria();
 
-        // Exact match fields
-        if (studentFilter.getGender() != null)
-            criteria.and("gender").is(studentFilter.getGender());
-
         // Regex match fields
         if (studentFilter.getStudentId() != null)
             criteria.and("studentId").regex(studentFilter.getStudentId(), "i");
@@ -34,6 +30,8 @@ public class CustomStudentRepository {
             criteria.and("fullName").regex(studentFilter.getFullName(), "i");
         if (studentFilter.getBirthday() != null)
             criteria.and("birthday").regex(studentFilter.getBirthday(), "i");
+        if (studentFilter.getGender() != null)
+            criteria.and("gender").regex(studentFilter.getGender(), "i");
         if (studentFilter.getPlaceOfBirth() != null)
             criteria.and("placeOfBirth").regex(studentFilter.getPlaceOfBirth(), "i");
         if (studentFilter.getEthnic() != null)
