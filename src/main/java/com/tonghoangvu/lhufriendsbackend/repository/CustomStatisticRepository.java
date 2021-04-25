@@ -1,9 +1,6 @@
 package com.tonghoangvu.lhufriendsbackend.repository;
 
-import com.tonghoangvu.lhufriendsbackend.model.statistic.EthinicStatistic;
-import com.tonghoangvu.lhufriendsbackend.model.statistic.GenderStatistic;
-import com.tonghoangvu.lhufriendsbackend.model.statistic.LastnameStatistic;
-import com.tonghoangvu.lhufriendsbackend.model.statistic.NationalityStatistic;
+import com.tonghoangvu.lhufriendsbackend.model.statistic.*;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
@@ -67,5 +64,15 @@ public class CustomStatisticRepository {
                         Fields.field("count"))),
                 Aggregation.sort(Sort.Direction.DESC, "count"));
         return mongoOperations.aggregate(aggregation, "students", EthinicStatistic.class);
+    }
+
+    public @NotNull Flux<PlaceOfBirthStatistic> statisticPlaceOfBirth() {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.group("placeOfBirth").count().as("count"),
+                Aggregation.project(Fields.from(
+                        Fields.field("placeOfBirth", "$_id"),
+                        Fields.field("count"))),
+                Aggregation.sort(Sort.Direction.DESC, "count"));
+        return mongoOperations.aggregate(aggregation, "students", PlaceOfBirthStatistic.class);
     }
 }
