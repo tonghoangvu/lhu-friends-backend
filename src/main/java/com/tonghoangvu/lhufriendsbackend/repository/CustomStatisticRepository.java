@@ -1,5 +1,6 @@
 package com.tonghoangvu.lhufriendsbackend.repository;
 
+import com.tonghoangvu.lhufriendsbackend.model.statistic.EthinicStatistic;
 import com.tonghoangvu.lhufriendsbackend.model.statistic.GenderStatistic;
 import com.tonghoangvu.lhufriendsbackend.model.statistic.LastnameStatistic;
 import com.tonghoangvu.lhufriendsbackend.model.statistic.NationalityStatistic;
@@ -56,5 +57,15 @@ public class CustomStatisticRepository {
                         Fields.field("count"))),
                 Aggregation.sort(Sort.Direction.DESC, "count"));
         return mongoOperations.aggregate(aggregation, "students", NationalityStatistic.class);
+    }
+
+    public @NotNull Flux<EthinicStatistic> statisticEthnic() {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.group("ethnic").count().as("count"),
+                Aggregation.project(Fields.from(
+                        Fields.field("ethnic", "$_id"),
+                        Fields.field("count"))),
+                Aggregation.sort(Sort.Direction.DESC, "count"));
+        return mongoOperations.aggregate(aggregation, "students", EthinicStatistic.class);
     }
 }

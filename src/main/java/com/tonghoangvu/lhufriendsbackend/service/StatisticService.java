@@ -1,5 +1,6 @@
 package com.tonghoangvu.lhufriendsbackend.service;
 
+import com.tonghoangvu.lhufriendsbackend.model.statistic.EthinicStatistic;
 import com.tonghoangvu.lhufriendsbackend.model.statistic.GenderStatistic;
 import com.tonghoangvu.lhufriendsbackend.model.statistic.LastnameStatistic;
 import com.tonghoangvu.lhufriendsbackend.model.statistic.NationalityStatistic;
@@ -24,5 +25,9 @@ public class StatisticService {
 
     public @NotNull Flux<NationalityStatistic> getNationalityStatistic() {
         return customStatisticRepository.statisticNationality();
+    }
+
+    public @NotNull Flux<EthinicStatistic> getEthnicStatistic() {
+        return customStatisticRepository.statisticEthnic();
     }
 }
