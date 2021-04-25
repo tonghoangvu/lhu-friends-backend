@@ -2,6 +2,7 @@ package com.tonghoangvu.lhufriendsbackend.repository;
 
 import com.tonghoangvu.lhufriendsbackend.model.statistic.GenderStatistic;
 import com.tonghoangvu.lhufriendsbackend.model.statistic.LastnameStatistic;
+import com.tonghoangvu.lhufriendsbackend.model.statistic.NationalityStatistic;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
@@ -45,5 +46,15 @@ public class CustomStatisticRepository {
                         Fields.field("count"))),
                 Aggregation.sort(Sort.Direction.DESC, "count"));
         return mongoOperations.aggregate(aggregation, "students", GenderStatistic.class);
+    }
+
+    public @NotNull Flux<NationalityStatistic> statisticNationality() {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.group("nationality").count().as("count"),
+                Aggregation.project(Fields.from(
+                        Fields.field("nationality", "$_id"),
+                        Fields.field("count"))),
+                Aggregation.sort(Sort.Direction.DESC, "count"));
+        return mongoOperations.aggregate(aggregation, "students", NationalityStatistic.class);
     }
 }

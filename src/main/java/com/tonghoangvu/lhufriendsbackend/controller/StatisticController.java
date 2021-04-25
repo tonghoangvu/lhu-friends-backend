@@ -2,6 +2,7 @@ package com.tonghoangvu.lhufriendsbackend.controller;
 
 import com.tonghoangvu.lhufriendsbackend.model.statistic.GenderStatistic;
 import com.tonghoangvu.lhufriendsbackend.model.statistic.LastnameStatistic;
+import com.tonghoangvu.lhufriendsbackend.model.statistic.NationalityStatistic;
 import com.tonghoangvu.lhufriendsbackend.service.StatisticService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -22,5 +23,10 @@ public class StatisticController {
     @GetMapping("/gender")
     public @NotNull Flux<GenderStatistic> getGenderStatistic() {
         return statisticService.getGenderStatistic();
+    }
+
+    @GetMapping("/nationality")
+    public @NotNull Flux<NationalityStatistic> getNationalityStatistic() {
+        return statisticService.getNationalityStatistic();
     }
 }
