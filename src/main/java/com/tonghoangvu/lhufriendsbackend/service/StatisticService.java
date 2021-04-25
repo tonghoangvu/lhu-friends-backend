@@ -31,4 +31,12 @@ public class StatisticService {
     public @NotNull Flux<PlaceOfBirthStatistic> getPlaceOfBirthStatistic() {
         return customStatisticRepository.statisticPlaceOfBirth();
     }
+
+    public @NotNull Flux<DayOfBirthStatistic> getDayOfBirthStatistic() {
+        return customStatisticRepository.statisticDayOfBirth();
+    }
+
+    public @NotNull Flux<MonthOfBirthStatistic> getMonthOfBirthStatistic() {
+        return customStatisticRepository.statisticMonthOfBirth();
+    }
 }

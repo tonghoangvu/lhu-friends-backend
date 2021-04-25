@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.Fields;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
@@ -74,5 +75,51 @@ public class CustomStatisticRepository {
                         Fields.field("count"))),
                 Aggregation.sort(Sort.Direction.DESC, "count"));
         return mongoOperations.aggregate(aggregation, "students", PlaceOfBirthStatistic.class);
+    }
+
+    public @NotNull Flux<DayOfBirthStatistic> statisticDayOfBirth() {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.addFields()
+                        .addFieldWithValue("birthdayDate",
+                                new Document("$dateFromString", new Document()
+                                        .append("dateString", "$birthday")
+                                        .append("format", "%d/%m/%Y")
+                                        .append("onNull", null)
+                                        .append("onError", null)))
+                        .build(),
+                Aggregation.match(Criteria.where("birthdayDate").ne(null)),
+                Aggregation.addFields()
+                        .addFieldWithValue("dayOfBirth",
+                                new Document("$dayOfMonth", "$birthdayDate"))
+                        .build(),
+                Aggregation.group("dayOfBirth").count().as("count"),
+                Aggregation.project(Fields.from(
+                        Fields.field("dayOfBirth", "$_id"),
+                        Fields.field("count"))),
+                Aggregation.sort(Sort.Direction.DESC, "count"));
+        return mongoOperations.aggregate(aggregation, "students", DayOfBirthStatistic.class);
+    }
+
+    public @NotNull Flux<MonthOfBirthStatistic> statisticMonthOfBirth() {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.addFields()
+                        .addFieldWithValue("birthdayDate",
+                                new Document("$dateFromString", new Document()
+                                        .append("dateString", "$birthday")
+                                        .append("format", "%d/%m/%Y")
+                                        .append("onNull", null)
+                                        .append("onError", null)))
+                        .build(),
+                Aggregation.match(Criteria.where("birthdayDate").ne(null)),
+                Aggregation.addFields()
+                        .addFieldWithValue("monthOfBirth",
+                                new Document("$month", "$birthdayDate"))
+                        .build(),
+                Aggregation.group("monthOfBirth").count().as("count"),
+                Aggregation.project(Fields.from(
+                        Fields.field("monthOfBirth", "$_id"),
+                        Fields.field("count"))),
+                Aggregation.sort(Sort.Direction.DESC, "count"));
+        return mongoOperations.aggregate(aggregation, "students", MonthOfBirthStatistic.class);
     }
 }

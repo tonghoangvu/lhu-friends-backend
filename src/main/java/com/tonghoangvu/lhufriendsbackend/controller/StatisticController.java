@@ -37,4 +37,14 @@ public class StatisticController {
     public @NotNull Flux<PlaceOfBirthStatistic> getPlaceOfBirthStatistic() {
         return statisticService.getPlaceOfBirthStatistic();
     }
+
+    @GetMapping("/day-of-birth")
+    public @NotNull Flux<DayOfBirthStatistic> getDayOfBirthStatistic() {
+        return statisticService.getDayOfBirthStatistic();
+    }
+
+    @GetMapping("/month-of-birth")
+    public @NotNull Flux<MonthOfBirthStatistic> getMonthOfBirthStatistic() {
+        return statisticService.getMonthOfBirthStatistic();
+    }
 }
