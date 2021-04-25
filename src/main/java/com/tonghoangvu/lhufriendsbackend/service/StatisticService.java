@@ -1,5 +1,6 @@
 package com.tonghoangvu.lhufriendsbackend.service;
 
+import com.tonghoangvu.lhufriendsbackend.model.statistic.GenderStatistic;
 import com.tonghoangvu.lhufriendsbackend.model.statistic.LastnameStatistic;
 import com.tonghoangvu.lhufriendsbackend.repository.CustomStatisticRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,11 @@ import reactor.core.publisher.Flux;
 public class StatisticService {
     private final @NotNull CustomStatisticRepository customStatisticRepository;
 
-    public Flux<LastnameStatistic> getLastnameStatistic() {
+    public @NotNull Flux<LastnameStatistic> getLastnameStatistic() {
         return customStatisticRepository.statisticLastname();
+    }
+
+    public @NotNull Flux<GenderStatistic> getGenderStatistic() {
+        return customStatisticRepository.statisticGender();
     }
 }

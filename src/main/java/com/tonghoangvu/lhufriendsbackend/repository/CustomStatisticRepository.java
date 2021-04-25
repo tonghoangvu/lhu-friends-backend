@@ -1,5 +1,6 @@
 package com.tonghoangvu.lhufriendsbackend.repository;
 
+import com.tonghoangvu.lhufriendsbackend.model.statistic.GenderStatistic;
 import com.tonghoangvu.lhufriendsbackend.model.statistic.LastnameStatistic;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;
@@ -34,5 +35,15 @@ public class CustomStatisticRepository {
                         Fields.field("count"))),
                 Aggregation.sort(Sort.Direction.DESC, "count"));
         return mongoOperations.aggregate(aggregation, "students", LastnameStatistic.class);
+    }
+
+    public @NotNull Flux<GenderStatistic> statisticGender() {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.group("gender").count().as("count"),
+                Aggregation.project(Fields.from(
+                        Fields.field("gender", "$_id"),
+                        Fields.field("count"))),
+                Aggregation.sort(Sort.Direction.DESC, "count"));
+        return mongoOperations.aggregate(aggregation, "students", GenderStatistic.class);
     }
 }

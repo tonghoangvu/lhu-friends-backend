@@ -1,5 +1,6 @@
 package com.tonghoangvu.lhufriendsbackend.controller;
 
+import com.tonghoangvu.lhufriendsbackend.model.statistic.GenderStatistic;
 import com.tonghoangvu.lhufriendsbackend.model.statistic.LastnameStatistic;
 import com.tonghoangvu.lhufriendsbackend.service.StatisticService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,12 @@ public class StatisticController {
     private final @NotNull StatisticService statisticService;
 
     @GetMapping("/last-name")
-    public Flux<LastnameStatistic> getLastnameStatistic() {
+    public @NotNull Flux<LastnameStatistic> getLastnameStatistic() {
         return statisticService.getLastnameStatistic();
+    }
+
+    @GetMapping("/gender")
+    public @NotNull Flux<GenderStatistic> getGenderStatistic() {
+        return statisticService.getGenderStatistic();
     }
 }
