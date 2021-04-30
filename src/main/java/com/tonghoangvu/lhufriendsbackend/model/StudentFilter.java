@@ -1,10 +1,8 @@
 package com.tonghoangvu.lhufriendsbackend.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class StudentFilter {
     private String studentId;
     private String fullName;

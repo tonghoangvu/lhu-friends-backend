@@ -1,10 +1,8 @@
 package com.tonghoangvu.lhufriendsbackend.model.statistic;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class LastnameStatistic {
     private String lastName;
     private long count;
