@@ -1,12 +1,10 @@
 package com.tonghoangvu.lhufriendsbackend.model;
 
 import com.tonghoangvu.lhufriendsbackend.entity.Student;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
-@Getter
-@Setter
+@Data
 public class StudentInfo {
     private String studentId;
     private String fullName;

@@ -1,12 +1,10 @@
 package com.tonghoangvu.lhufriendsbackend.exception;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-@Getter
-@Setter
+@Data
 @RequiredArgsConstructor
 public class ErrorResponse {
     private final @NotNull ErrorCode code;

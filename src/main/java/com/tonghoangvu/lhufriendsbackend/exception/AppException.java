@@ -1,21 +1,13 @@
 package com.tonghoangvu.lhufriendsbackend.exception;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
 
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class AppException extends RuntimeException {
-    private final int status;
+    private final HttpStatus status;
     private final ErrorCode code;
     private final String message;
-
-    public AppException(@NotNull HttpStatus status, ErrorCode code, String message) {
-        super(message);
-        this.status = status.value();
-        this.code = code;
-        this.message = message;
-    }
 }
